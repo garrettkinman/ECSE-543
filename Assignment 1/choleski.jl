@@ -1,5 +1,5 @@
 using Test
-using 𝐋inearAlgebra
+using LinearAlgebra
 
 """
 Uses Choleski decomposition to solve `𝐀𝐱 = 𝐛`, where 𝐀 is real, symmetric, and positive-definite. Returns the vector 𝐱.
@@ -59,10 +59,6 @@ function choleski(𝐀::AbstractMatrix{T}, 𝐛::AbstractVector{T}) where {T<:Re
 
     return 𝐱
     # return 𝐋,𝐲,𝐱
-    
-    # TODO: choleski decomposition
-    # for now, use built-in solution to 𝐀𝐱=𝐛
-    # return 𝐀 \ 𝐛
 end
 
 @testset "real, symmetric, and positive-definite" begin
