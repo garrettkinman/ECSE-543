@@ -4,7 +4,7 @@ using LinearAlgebra
 """
 Uses Choleski decomposition to solve `𝐀𝐱 = 𝐛`, where 𝐀 is real, symmetric, and positive-definite. Returns the vector 𝐱.
 """
-function choleski(𝐀::AbstractMatrix{T}, 𝐛::AbstractVector{T}) where {T<:Real}
+function choleski(𝐀::AbstractMatrix{<:Real}, 𝐛::AbstractVector{<:Real})
     n, m = size(𝐀)
 
     if n != m
@@ -62,7 +62,29 @@ function choleski(𝐀::AbstractMatrix{T}, 𝐛::AbstractVector{T}) where {T<:Re
 end
 
 @testset "real, symmetric, and positive-definite" begin
-    # check for approx equal (instead of strict equality) to account for finite-precision FLOPS
-    @test choleski([1 0; 0 1], [1; 1]) ≈ [1; 1]
-    @test choleski([2 -1 0; -1 2 -1; 0 -1 2], [1; 0; 1]) ≈ [1; 1; 1]
+    # test a simple 2×2 case
+    test_𝐀 = [1 0; 0 1]
+    test_𝐱 = [1; 1]
+    test_𝐛 = test_𝐀 * test_𝐱
+    @test choleski(test_𝐀, test_𝐛) ≈ test_𝐱 # approx is to account for floating point errors
+
+    # test 10 random 2×2 cases
+    for i ∈ 1:10
+        test_𝐱 = rand(2)
+        test_𝐛 = test_𝐀 * test_𝐱
+        @test choleski(test_𝐀, test_𝐛) ≈ test_𝐱
+    end
+
+    # test a simple 3×3 case
+    test_𝐀 = [2 -1 0; -1 2 -1; 0 -1 2]
+    test_𝐱 = [1; 1; 1]
+    test_𝐛 = [1; 0; 1]
+    @test choleski(test_𝐀, test_𝐛) ≈ test_𝐱
+
+    # test 10 random 3×3 cases
+    for i ∈ 1:10
+        test_𝐱 = rand(3)
+        test_𝐛 = test_𝐀 * test_𝐱
+        @test choleski(test_𝐀, test_𝐛) ≈ test_𝐱
+    end
 end
