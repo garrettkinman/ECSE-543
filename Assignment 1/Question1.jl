@@ -12,3 +12,7 @@ solve_circuit(circuit2...)
 # solve circuit 3 from /circuits/circuit3.toml
 circuit3 = get_circuit(3)
 solve_circuit(circuit3...)
+
+# solve circuit 4 from /circuits/circuit4.toml
+circuit4 = get_circuit(4)
+solve_circuit(circuit4...)
