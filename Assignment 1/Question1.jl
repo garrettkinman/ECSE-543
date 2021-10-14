@@ -16,3 +16,7 @@ solve_circuit(circuit3...)
 # solve circuit 4 from /circuits/circuit4.toml
 circuit4 = get_circuit(4)
 solve_circuit(circuit4...)
+
+# solve circuit 5 from /circuits/circuit5.toml
+circuit5 = get_circuit(5)
+solve_circuit(circuit5...)
