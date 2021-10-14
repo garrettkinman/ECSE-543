@@ -1,5 +1,5 @@
 num_nodes = 1
-num_branches = 3
+num_branches = 2
 A = [ [ -1, 1 ] ]
 J = [ -10, 0 ]
 R = [ 10, 10 ]
