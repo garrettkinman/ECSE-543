@@ -115,7 +115,7 @@ function generate_circuit(N, R, sJ, sR, sE)
 
         # setup the voltage source
         # right top corner
-        if level == 0 && offset == (2*N + 1)
+        if level == 1 && offset == (2*N + 1)
             𝐀[i_node, n_branch + 1] = -1
         elseif level == (N + 1) && offset == 1
             𝐀[i_node, n_branch + 1] = 1

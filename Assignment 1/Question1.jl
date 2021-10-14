@@ -20,3 +20,6 @@ solve_circuit(circuit4...)
 # solve circuit 5 from /circuits/circuit5.toml
 circuit5 = get_circuit(5)
 solve_circuit(circuit5...)
+
+circuit_mesh = generate_circuit(2, 1000, 0, 1000, 100)
+solve_circuit(circuit_mesh...)
