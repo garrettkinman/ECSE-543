@@ -21,5 +21,11 @@ solve_circuit(circuit4...)
 circuit5 = get_circuit(5)
 solve_circuit(circuit5...)
 
-circuit_mesh = generate_circuit(2, 1000, 0, 1000, 100)
-solve_circuit(circuit_mesh...)
+# solve N×2N finite-difference mesh for N = 2
+N, R, sJ, sR, sE = 2, 1000, 0, 1000, 100
+circuit_mesh = generate_circuit(N, R, sJ, sR, sE)
+𝐯_mesh =  solve_circuit(circuit_mesh...)
+𝐯₁ = 𝐯_mesh[2*N + 1]
+𝐯₂ = 0
+I = ((𝐯₂ + sE) - 𝐯₁) / sR
+R_mesh = (𝐯₁ - 𝐯₂) / I
