@@ -3,7 +3,7 @@ include("Assignment 1/circuit.jl")
 
 # solve circuit 1 from /circuits/circuit1.toml
 circuit1 = get_circuit(1)
-solve_circuit(circuit...)
+solve_circuit(circuit1...)
 
 # solve circuit 2 from /circuits/circuit2.toml
 circuit2 = get_circuit(2)
@@ -22,10 +22,16 @@ circuit5 = get_circuit(5)
 solve_circuit(circuit5...)
 
 # solve N×2N finite-difference mesh for N = 2
-N, R, sJ, sR, sE = 2, 1000, 0, 1000, 100
-circuit_mesh = generate_circuit(N, R, sJ, sR, sE)
-𝐯_mesh =  solve_circuit(circuit_mesh...)
-𝐯₁ = 𝐯_mesh[2*N + 1]
-𝐯₂ = 0
-I = ((𝐯₂ + sE) - 𝐯₁) / sR
-R_mesh = (𝐯₁ - 𝐯₂) / I
+R, sJ, sR, sE = 1000, 0, 1000, 100
+𝐑_equivalent = []
+for N ∈ 1:32
+    circuit_mesh = generate_circuit(N, R, sJ, sR, sE)
+    print("N = $N\t")
+    @time 𝐯_mesh =  solve_circuit(circuit_mesh...)
+    𝐯₁ = 𝐯_mesh[2*N + 1]
+    𝐯₂ = 0
+    I = ((𝐯₂ + sE) - 𝐯₁) / sR
+    R_mesh = (𝐯₁ - 𝐯₂) / I
+
+    push!(𝐑_equivalent, R_mesh)
+end
