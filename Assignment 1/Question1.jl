@@ -26,8 +26,9 @@ R, sJ, sR, sE = 1000, 0, 1000, 100
 𝐑_equivalent = []
 for N ∈ 1:32
     circuit_mesh = generate_circuit(N, R, sJ, sR, sE)
-    print("N = $N\t")
-    @time 𝐯_mesh =  solve_circuit(circuit_mesh...)
+    halfband = 2*N + 2
+    print("N = $N\tb = $halfband\t")
+    @time 𝐯_mesh =  solve_circuit(circuit_mesh..., halfband)
     𝐯₁ = 𝐯_mesh[2*N + 1]
     𝐯₂ = 0
     I = ((𝐯₂ + sE) - 𝐯₁) / sR

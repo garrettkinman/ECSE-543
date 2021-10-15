@@ -19,7 +19,7 @@ resistance matrix, 𝐑; and voltage source matrix, 𝐄. Solves using Choleski 
 Tip: use the spread operator, `...`, to use the returned output of `get_circuit(id)`
 without having to access the members of the named tuple.
 """
-function solve_circuit(𝐀, 𝐉, 𝐑, 𝐄)
+function solve_circuit(𝐀, 𝐉, 𝐑, 𝐄, halfband=nothing)
     # (𝐀𝐘𝐀ᵀ)𝐯 = 𝐀(𝐉 - 𝐘𝐄)
 
     # fill in 𝐘 with zeros everywhere but the main diagonal
@@ -29,7 +29,7 @@ function solve_circuit(𝐀, 𝐉, 𝐑, 𝐄)
     end
 
     # perform choleski decomposition with constructed 𝐀 and 𝐛
-    𝐯 = choleski(𝐀 * 𝐘 * transpose(𝐀), 𝐀 * (𝐉 - (𝐘 * 𝐄)))
+    𝐯 = choleski(𝐀 * 𝐘 * transpose(𝐀), 𝐀 * (𝐉 - (𝐘 * 𝐄)), halfband)
     return 𝐯
 end
 

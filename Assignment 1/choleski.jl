@@ -31,7 +31,7 @@ function choleski(𝐀::AbstractMatrix{<:Real}, 𝐛::AbstractVector{<:Real}, ha
         i_range = (j+1):n
         if !isnothing(halfband)
             if (j + halfband + 1) < n
-                i_range = (j+1):(j+hb)
+                i_range = (j+1):(j+halfband)
             end
         end
         for i ∈ i_range
