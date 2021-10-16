@@ -36,3 +36,16 @@ for N ∈ 1:32
 
     push!(𝐑_equivalent, R_mesh)
 end
+
+## question 3
+
+include("Assignment 1/finite-difference.jl")
+
+# use SOR on a mesh with h=0.02 and residual limit of 1e-5
+result_potentials = []
+for ω ∈ 1.0:0.1:1.9
+    mesh = PotentialMesh()
+    SOR!(mesh, ω)
+    push!(result_potentials, mesh.mesh[4,3])
+end
+result_potentials
