@@ -1,4 +1,84 @@
 using Test
+using LinearAlgebra
+include("Assignment 2/mesh.jl")
+
+function generate_matrix(potentials::PotentialMesh, num_nodes::Integer)
+    n, m = size(potentials.mesh)
+
+    # initialize
+    𝐀 = one(zeros(num_nodes, num_nodes)) * -4
+    # 𝐀 = identity(n) * -4
+    𝐛 = zeros(num_nodes)
+
+    # k is used for indexing into our constructed 𝐀 and 𝐛
+    k = 1
+
+    for i ∈ 1:(n-1)
+        for j ∈ 1:(m-1)
+            if j > 2 && potentials.mesh[i, j] == 0 && potentials.mesh[i, j - 1] == potentials.inner_potential
+                if i == 1
+                    𝐀[k, k + 1] = 1
+                    𝐀[k, k + 2] = 2
+                    𝐛[k] = -potentials.inner_potential
+                elseif i == 2
+                    𝐀[k, k + 1] = 𝐀[k, k - 2] = 𝐀[k, k + 5] = 1
+                    𝐛[k] = -potentials.inner_potential
+                end
+                k += 1
+            elseif j + 1 == m
+                if i == 1
+                    𝐀[k, k - 1] = 1
+                    𝐀[k, k + 2] = 2
+                    𝐛[k] = -potentials.outer_potential
+                elseif i == 2
+                    𝐀[k, k - 1] = 𝐀[k, k + 5] = 𝐀[k, k - 2] = 1
+                    𝐛[k] == 0
+                elseif i + 1 == n
+                    𝐀[k, k - 1] = 𝐀[k, k - 5] = 1
+                    𝐛[k] = -potentials.outer_potential * 2
+                else
+                    𝐀[k, k - 1] = 𝐀[k, k + 5] = 𝐀[k, k - 5] = 1
+                end
+                k += 1
+            elseif j == 1 && i > 2
+                if potentials.mesh[i - 1, j] == potentials.inner_potential
+                    𝐀[k, k + 1] = 2
+                    𝐀[k, k + 5] = 1
+                    𝐛[k] = -potentials.inner_potential
+                elseif i + 2 == n
+                    𝐀[k, k + 1] = 2
+                    𝐀[k, k - 5] = 1
+                    𝐛[k] = -potentials.outer_potential
+                else
+                    𝐀[k, k + 1] = 2
+                    𝐀[k, k + 5] = 𝐀[k, k - 5] = 1
+                    𝐛[k] = 0
+                end
+                k += 1
+            elseif i == 3 && potentials.mesh[i - 1, j] == potentials.inner_potential
+                𝐀[k, k - 1] = 𝐀[k, k + 1] = 𝐀[k, k + 5] = 1
+                𝐛[k] = -potentials.inner_potential
+                k += 1
+            elseif i + 1 == n
+                𝐀[k, k - 1] = 𝐀[k, k + 1] = 𝐀[k, k - 5] = 1
+                𝐛[k] = -potentials.outer_potential
+                k += 1
+            elseif i > 2 && j > 1
+                𝐀[k, k - 1] = 𝐀[k, k + 1] = 𝐀[k, k - 5] = 𝐀[k, k + 5] = 1
+                𝐛[k] = 0
+                k += 1
+            end
+        end
+    end
+    return 𝐀, 𝐛
+end
+
+## debug
+
+potentials = PotentialMesh(h=0.02)
+generate_matrix(potentials, 19)
+
+## conjugate gradient
 
 """
 Uses Conjugate Gradient Descent to solve `𝐀𝐱 = 𝐛`, where 𝐀 is real, symmetric, and positive-definite. Returns the vector 𝐱.
@@ -38,11 +118,9 @@ function conjugate_gradient(𝐀::AbstractMatrix{<:Real}, 𝐛::AbstractVector{<
 
     for i ∈ 1:n
         α = (transpose(𝐩) * 𝐫)[1, 1] / (transpose(𝐩) * 𝐀 * 𝐩)[1, 1]
-        # alpha = multiplyMatrix(transposeMatrix(p), r)[0][0]/(multiplyMatrix(transposeMatrix(p), multiplyMatrix(𝐀, p))[0][0])
         𝐱 = 𝐱 + (α * 𝐩)
         𝐫 = 𝐛 - (𝐀 * 𝐱)
         β = (transpose(𝐩) * 𝐀 * 𝐫)[1, 1] / (transpose(𝐩) * 𝐀 * 𝐩)[1, 1]
-        # beta = -((multiplyMatrix(transposeMatrix(p), multiplyMatrix(𝐀, r))[0][0])/(multiplyMatrix(transposeMatrix(p), multiplyMatrix(𝐀, p))[0][0]))
         𝐩 = 𝐫 + (β * 𝐩)
 
         # finding the norms
