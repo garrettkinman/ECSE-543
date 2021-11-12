@@ -1,11 +1,18 @@
 function Capacitance = capacitance(filename1, filename2, filename3)
     clc;
     
+    % zero initialize
     W = 0;
     U = zeros(1, 4);
+
+    % potential between inner and outer
     V = 15 - 0;
+
+    % use potentials from SIMPLE2D_M and S from Question 1
     potentials = SIMPLE2D_M(filename1, filename2, filename3);
     S = [1, -0.5, 0, -.5; -0.5, 1, -0.5, 0; 0, -0.5, 1, -0.5; -0.5, 0, -0.5, 1];
+    
+    % e0 = epsilon naught
     e0 = 8.854e-12;
     
     for i = 1:length(potentials)
