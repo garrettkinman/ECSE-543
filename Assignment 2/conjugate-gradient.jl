@@ -140,7 +140,7 @@ function conjugate_gradient(𝐀::AbstractMatrix{<:Real}, 𝐛::AbstractVector{<
         α = (transpose(𝐩) * 𝐫)[1, 1] / (transpose(𝐩) * 𝐀 * 𝐩)[1, 1]
         𝐱 = 𝐱 + (α * 𝐩)
         𝐫 = 𝐛 - (𝐀 * 𝐱)
-        β = (transpose(𝐩) * 𝐀 * 𝐫)[1, 1] / (transpose(𝐩) * 𝐀 * 𝐩)[1, 1]
+        β = -(transpose(𝐩) * 𝐀 * 𝐫)[1, 1] / (transpose(𝐩) * 𝐀 * 𝐩)[1, 1]
         𝐩 = 𝐫 + (β * 𝐩)
 
         # finding the norms
