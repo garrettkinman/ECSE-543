@@ -2,7 +2,7 @@ function Capacitance = capacitance(filename1, filename2, filename3)
     clc;
     
     % zero initialize
-    Etot = 0;
+    E = 0;
     U = zeros(1, 4);
 
     % potential between inner and outer
@@ -22,11 +22,9 @@ function Capacitance = capacitance(filename1, filename2, filename3)
             U(2) = potentials(i + 1, 4);
             U(3) = potentials(i + 7, 4);
             U(4) = potentials(i + 6, 4);
-            
-            % add the current Emesh to Etot
-            Etot = Etot + (0.5 * e0 * U * S * transpose(U));
+            W = W + (0.5 * U * S * transpose(U));
         end
     end
-    Capacitance = 4 * 2 * Etot / V^2;
+    Capacitance = 8 * W * e0 / V^2;
     return
 end
