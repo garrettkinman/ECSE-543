@@ -16,7 +16,7 @@ scatter!(𝐁[1:6], 𝐇[1:6], label="True Values")
 savefig("Assignment 3/question1a.png")
 
 ## question 1b
-@time lagrange_polynomial2 = lagrange([𝐁[1]; 𝐁[9:15]], [𝐇[1]; 𝐇[9:15]]) |> eval
+@time lagrange_polynomial2 = lagrange([𝐁[1]; 𝐁[9:10]; 𝐁[13:15]], [𝐇[1]; 𝐇[9:10]; 𝐇[13:15]]) |> eval
 
 plot(0.0:0.001:1.9, lagrange_polynomial2.(0.0:0.001:1.9), label="Lagrange Polynomial")
 xlabel!("B (T)")
