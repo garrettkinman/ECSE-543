@@ -22,5 +22,5 @@ plot(0.0:0.001:1.9, lagrange_polynomial2.(0.0:0.001:1.9), label="Lagrange Polyno
 xlabel!("B (T)")
 ylabel!("H (A/m)")
 title!("Lagrange Polynomial H vs B")
-scatter!([𝐁[1]; 𝐁[9:15]], [𝐇[1]; 𝐇[9:15]], label="True Values")
+scatter!(𝐁, 𝐇, label="True Values")
 savefig("Assignment 3/question1b.png")
