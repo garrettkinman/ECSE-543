@@ -24,3 +24,28 @@ ylabel!("H (A/m)")
 title!("Lagrange Polynomial H vs B")
 scatter!(𝐁, 𝐇, label="True Values")
 savefig("Assignment 3/question1b.png")
+
+## question 1c
+𝐁_sub = [𝐁[1]; 𝐁[9:10]; 𝐁[13:15]]
+𝐇_sub = [𝐇[1]; 𝐇[9:10]; 𝐇[13:15]]
+
+# construct an approximate
+𝐇_sub′ = zeros(Float64, length(𝐇_sub))
+for j ∈ 1:length(𝐇_sub′)
+    if j != length(𝐇_sub′)
+        𝐇_sub′[j] = (𝐇_sub[j + 1] - 𝐇_sub[j]) / (𝐁_sub[j + 1] - 𝐁_sub[j])
+    else
+        𝐇_sub′[j] = 𝐇_sub[j] / 𝐁_sub[j]
+    end
+end
+
+@time hermite_polynomial = hermite(𝐁_sub, 𝐇_sub, 𝐇_sub′) |> eval
+
+plot(0.0:0.001:1.9, hermite_polynomial.(0.0:0.001:1.9), label="Hermite Polynomial")
+xlabel!("B (T)")
+ylabel!("H (A/m)")
+title!("Hermite Polynomial H vs B")
+scatter!(𝐁, 𝐇, label="True Values")
+savefig("Assignment 3/question1c.png")
+
+##
