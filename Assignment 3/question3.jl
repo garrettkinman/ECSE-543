@@ -8,9 +8,9 @@ function newton_raphson(error::Real)
     𝐯ₙ = [0, 0]
     i = 0
 
-    while true
-        println("Iteration: $i, v₁: $(𝐯ₙ[1]), v₂: $(𝐯ₙ[2])")
+    println("iteration,v₁,v₂,error")
 
+    while true
         # create new node voltage estimates
         # 𝐯ₙ₊₁ = 𝐯ₙ - (𝐟′⁻¹·𝐟)
         𝐟′ = [
@@ -20,9 +20,13 @@ function newton_raphson(error::Real)
 
         𝐯ₙ₊₁ = 𝐯ₙ - (inv(𝐟′) * [f₁(𝐯ₙ...), f₂(𝐯ₙ...)])
 
+        ϵₖ = max(abs.(𝐯ₙ - 𝐯ₙ₊₁)...)
+
+        println("$i,$(𝐯ₙ[1]),$(𝐯ₙ[2]),$ϵₖ")
+        
         # if error small enough, we're done
         # else, update the node voltage estimates
-        if (max(abs.(𝐯ₙ - 𝐯ₙ₊₁)...) < error)
+        if (ϵₖ < error)
             break
         else
             i += 1
