@@ -29,12 +29,14 @@ end
 
 ## question 4b
 
-ground_truth = sin(1) - sin(0)
-println("Ground truth ₀∫¹cos(x)dx = $ground_truth")
+ground_truth = (1*log(1) - 1)
+println("Ground truth ₀∫¹ln(x)dx = $ground_truth")
 
 println("N,Integral,Error")
 for N ∈ 10:10:200
-    integral = gauss_legendre(cos, (0, 1), N)
+    integral = gauss_legendre(log, (0, 1), N)
     error = integral - ground_truth
     println("$N,$integral,$error")
 end
+
+log(5)
