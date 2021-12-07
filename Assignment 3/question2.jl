@@ -47,6 +47,32 @@ function newton_raphson(error::Real)
     end
 end
 
+function substitution(step_divisor::Real, error::Real)
+    # initialize estimate of flux, ϕ, as 0
+    ϕₙ = 0
+    i = 0
+
+    while true
+        println("Iteration: $i, Flux: $ϕₙ")
+
+        # create new flux estimate
+        ϕₙ₊₁ = ϕₙ - (f(ϕₙ) / step_divisor)
+        
+        # if error small enough, we're done
+        # else, update the flux estimate
+        if (abs(ϕₙ - ϕₙ₊₁) < error)
+            break
+        else
+            i += 1
+            ϕₙ = ϕₙ₊₁
+        end
+    end
+end
+
 ## run newton-raphson method
 
 newton_raphson(1e-6)
+
+## run substitution method
+
+substitution(1e8, 1e-6)
