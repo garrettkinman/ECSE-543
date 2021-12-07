@@ -35,9 +35,4 @@ function newton_raphson(error::Real)
     end
 end
 
-A_test = [
-    1 2
-    3 4
-]
-
 newton_raphson(1e-5)
