@@ -73,4 +73,3 @@ for r ∈ 1:0.05:2
     error = integral - ground_truth
     println("$r,$integral,$error")
 end
-
